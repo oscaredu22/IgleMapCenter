@@ -2,6 +2,8 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { } from '@types/googlemaps';
+import { Http } from '@angular/http';
+import { Proveedor1Provider } from '../../providers/proveedor1/proveedor1';
 
 @Component({
   selector: 'page-home',
@@ -16,9 +18,20 @@ export class HomePage {
   marcadorDestino: google.maps.Marker;
   animationMarker: google.maps.InfoWindow;
 
-  constructor(public navCtrl: NavController, private geolocation: Geolocation) {
+  iglesias
+  webServiceURL = 'https://oscaredu03.000webhostapp.com/server/iglesia/leer';
+
+  constructor(public navCtrl: NavController, private geolocation: Geolocation, public http: Http, public proveedor: Proveedor1Provider) {
 
   }
+
+  /*ionViewDidLoad(){
+    this.proveedor.obtenerDatos()
+    .subscribe(
+      (data)=>{this.iglesias=data;},
+      (error)=>{console.log(error);}
+    )
+  }*/
 
   ngOnInit() {
     this.startGoogleMap();
@@ -95,5 +108,32 @@ export class HomePage {
     directionsService.route(request, function(result) {
       directionsDisplay.setDirections(result);
     })  
+  }
+
+  /*getAll() {
+    this.http.get(this.webServiceURL)
+    .subscribe(respuesta => {
+      alert(JSON.stringify(respuesta.json()));
+    }, error => {
+      alert(JSON.stringify(error));
+  });
+  }*/
+
+  //metodo para obtener la lista de los datos desde el servidor
+  loadIglesias(){
+    return this.http
+    .get(this.webServiceURL)
+    .toPromise();
+  }
+
+  cargarIglesias(){
+    this.http.loadIglesias.subscribe(
+      (res) => { 
+        this.iglesias = res['results'];
+      },
+      (error) =>{
+        console.error(error);
+      }
+    )
   }
 }

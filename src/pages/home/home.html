@@ -7,7 +7,14 @@
 </ion-header>
 
 <ion-content padding>
-  <input list="pac-input" class="controls" type="text" placeholder="Buscador" >
-  <input id="enviar-input" type="submit" value="Buscar" src="actualizarMarcadorMio()">
-  <div #gmap id="gmap" col-12></div>
+  <form>
+    <div class="input-group mb-3">
+      <select class="form-control" name="idIglesia" [(ngModel)]="iglesias">
+        <option value="0" selected>Seleccione...</option>
+        <option *ngFor = "let iglesia of iglesias" value={{iglesia.id}}>{{iglesia.nombre}}</option>
+      </select>
+    </div>
+  </form>
+    <button ion-fab color="blue" aling="right"><ion-icon name="ios-navigate-outline"></ion-icon></button>
+    <div #gmap id="gmap" col-12></div>
 </ion-content>
