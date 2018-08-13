@@ -9,7 +9,7 @@
 <ion-content padding>
   <form>
     <div class="input-group mb-3">
-      <select class="form-control" name="idIglesia" [(ngModel)]="iglesias">
+      <select class="form-control" name="idIglesia" [(ngModel)]="iglesiaSeleccionada" (change)="seleccionaIglesia(iglesiaSeleccionada)">
         <option value="0" selected>Seleccione...</option>
         <option *ngFor = "let iglesia of iglesias" value={{iglesia.id}}>{{iglesia.nombre}}</option>
       </select>

@@ -17,8 +17,8 @@ export class HomePage {
   miMarcador: google.maps.Marker;
   marcadorDestino: google.maps.Marker;
   animationMarker: google.maps.InfoWindow;
-
-  iglesias
+  iglesiaSeleccionadaId: number;
+  iglesias: any;
   webServiceURL = 'https://oscaredu03.000webhostapp.com/server/iglesia/leer';
 
   constructor(public navCtrl: NavController, private geolocation: Geolocation, public http: Http, public proveedor: Proveedor1Provider) {
@@ -31,6 +31,16 @@ export class HomePage {
       (data)=>{this.iglesias=data;},
       (error)=>{console.log(error);}
     )
+  }
+
+  seleccionaIglesia(idIglesia: number) {
+    this.iglesias.forEach(element => {
+      if(element.id == idIglesia){
+        // ACA SE DIBUJA EL MARCADOR
+        this.marcadorDestino = new google.maps.Marker(this.iglesias);
+        console.log(element);
+      }
+    });
   }
 
   ngOnInit() {
@@ -109,15 +119,6 @@ export class HomePage {
       directionsDisplay.setDirections(result);
     })  
   }
-
-  /*getAll() {
-    this.http.get(this.webServiceURL)
-    .subscribe(respuesta => {
-      alert(JSON.stringify(respuesta.json()));
-    }, error => {
-      alert(JSON.stringify(error));
-  });
-  }*/
 
   //metodo para obtener la lista de los datos desde el servidor
   loadIglesias(){
