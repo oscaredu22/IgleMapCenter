@@ -25,13 +25,13 @@ export class HomePage {
 
   }
 
-  /*ionViewDidLoad(){
+  ionViewDidLoad(){
     this.proveedor.obtenerDatos()
     .subscribe(
       (data)=>{this.iglesias=data;},
       (error)=>{console.log(error);}
     )
-  }*/
+  }
 
   ngOnInit() {
     this.startGoogleMap();
@@ -40,7 +40,7 @@ export class HomePage {
 
   startGoogleMap() {
     const mapProp = {
-        center: new google.maps.LatLng(-0.2188964,-78.5138881), //??
+        center: new google.maps.LatLng(-0.2188964,-78.5138881), //coordenadas donde se inicia el mapa
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
