@@ -20,7 +20,7 @@ export class HomePage {
   iglesiaSeleccionadaId: number;
   iglesias: any;
   webServiceURL = 'https://oscaredu03.000webhostapp.com/server/iglesia/leer';
-
+  
   constructor(public navCtrl: NavController, private geolocation: Geolocation, public http: Http, public proveedor: Proveedor1Provider) {
 
   }
@@ -37,11 +37,29 @@ export class HomePage {
     this.iglesias.forEach(element => {
       if(element.id == idIglesia){
         // ACA SE DIBUJA EL MARCADOR
-        this.marcadorDestino = new google.maps.Marker(this.iglesias);
+        this.marcadorDestino = new google.maps.Marker({
+          position: this.iglesias, //consulta
+          map: this.map,
+          animation: google.maps.Animation.DROP
+        });
         console.log(element);
+        this.iniciarMarcadores(element.latitud,element.longitud);        
       }
     });
   }
+
+  
+  seleccionaIglesiaDescripcion(descripcion: string) {
+    this.iglesias.forEach(element => {
+      if(element.id == descripcion){
+        // ACA SE DIBUJA EL MARCADOR
+        this.marcadorDestino = new google.maps.Marker();
+
+        //console.log("Hola");
+      }
+    });
+  }
+
 
   ngOnInit() {
     this.startGoogleMap();
@@ -55,7 +73,7 @@ export class HomePage {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
-    this.iniciarMarcadores();
+    
   }
 
   obtenerMiPosicion() {
@@ -82,9 +100,9 @@ export class HomePage {
     this.miMarcador.setPosition(this.miPosicion);
   }
 
-  iniciarMarcadores() {
+  iniciarMarcadores(x,y) {
     this.miMarcador = new google.maps.Marker({
-      position: new google.maps.LatLng(-0.2188964,-78.5138881), //base de datos
+      position: new google.maps.LatLng(x,y), //base de datos
       map: this.map,
       title: '',
       draggable: false,
@@ -94,11 +112,11 @@ export class HomePage {
   //poner una informacion en el marcador
   var Map;   
   var info = new google.maps.InfoWindow({
-    
+
     });
 
     this.miMarcador.addListener('click',function(){
-      info.setContent('<h1>EJEMPLO</h1>'); 
+      info.setContent('seleccionaIglesiaDescripcion()'); 
         info.open(Map,this);
     });
     this.obtenerMiPosicion();
